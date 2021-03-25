@@ -1,13 +1,14 @@
 import React from "react"
 import classes from './App.module.scss'
 import { ButtonToggle } from 'reactstrap'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"
+import { addCustomerAction, removeCustomerAction } from "./store/customerReducer"
 
 function App() {
 
   const dispatch = useDispatch()
   const cash = useSelector(state => state.cash.cash)
-  const customer = useSelector(state => state.customer.customer)
+  const customers = useSelector(state => state.customers.customers)
 
   const addCash = (cash) => {
     dispatch({
@@ -21,28 +22,21 @@ function App() {
       payload: cash
     })
   }
-  const addCustomer = (cash) => {
-    dispatch({
-      type: 'SUB_CASH',
-      payload: cash
-    })
+  const addCustomer = (name) => {
+    const customer = {
+      name,
+      id: Date.now()
+    }
+
+    dispatch(addCustomerAction(customer))
   }
-  const subCustomer = (cash) => {
-    dispatch({
-      type: 'SUB_CASH',
-      payload: cash
-    })
+
+  const removeCustomer = (customer) => {
+    dispatch(removeCustomerAction(customer.id))
   }
 
   return (
     <div className={classes.App}>
-      <div>
-        <h2 className={classes.cash}>{customer}</h2>
-        <div>
-          <ButtonToggle color="primary" onClick={() => addCustomer()}>Добавить пользователей</ButtonToggle>
-          <ButtonToggle color="danger" onClick={() => subCustomer()}>Убрать пользователя</ButtonToggle>
-        </div>
-      </div>
       <div>
         <h2 className={classes.cash}>{cash}</h2>
         <div>
@@ -50,8 +44,26 @@ function App() {
           <ButtonToggle color="danger" onClick={() => subCash(Number(prompt()))}>Снять со счёта</ButtonToggle>
         </div>
       </div>
-
-
+      <div>
+        <div className={classes.cash}>{
+          customers.length > 0
+            ? <div>
+              {customers.map(customer =>
+                <div className={classes.cash}
+                  onClick={() => removeCustomer(customer)}
+                >{customer.name}
+                </div>
+              )}
+            </div>
+            : <div className={classes.cash}>
+              Пользователи отсутствуют
+              </div>
+        }</div>
+        <div>
+          <ButtonToggle color="primary" onClick={() => addCustomer(prompt())}>Добавить пользователей</ButtonToggle>
+          <ButtonToggle color="danger" onClick={() => removeCustomer()}>Убрать пользователя</ButtonToggle>
+        </div>
+      </div>
     </div>
   );
 }
