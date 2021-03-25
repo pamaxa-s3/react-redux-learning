@@ -1,0 +1,19 @@
+.App {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   background: linear-gradient(180deg, rgb(8, 153, 163) 0%, rgb(2, 37, 36) 100%);
+
+   button {
+      &+button {
+         margin-left: 15px;
+      }
+   }
+}
+
+.cash {
+   font-size: 50px;
+   margin-bottom: 30px;
+}
