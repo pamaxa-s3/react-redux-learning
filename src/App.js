@@ -3,6 +3,7 @@ import classes from './App.module.scss'
 import { ButtonToggle } from 'reactstrap'
 import { useDispatch, useSelector } from "react-redux"
 import { addCustomerAction, removeCustomerAction } from "./store/customerReducer"
+import { fetchCustomers } from "./asyncAction/customer"
 
 function App() {
 
@@ -61,7 +62,7 @@ function App() {
         }</div>
         <div>
           <ButtonToggle color="primary" onClick={() => addCustomer(prompt())}>Добавить пользователей</ButtonToggle>
-          <ButtonToggle color="danger" onClick={() => removeCustomer()}>Убрать пользователя</ButtonToggle>
+          <ButtonToggle color="danger" onClick={() => dispatch(fetchCustomers())}>Получить список пользователей</ButtonToggle>
         </div>
       </div>
     </div>
